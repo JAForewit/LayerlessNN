@@ -14,7 +14,7 @@ I am considering
 
 
 
-### ONeuron Class
+## ONeuron Class
 
 Attributes
 ```
@@ -22,12 +22,18 @@ Attributes
 + output
 - threshold
 ```
-
 Methods
 ```
 ONeuron()
 nonlinearFunction()
 ```
 
-### ONN Class
-\+ neuronCount
+## ONN Class
+Attributes
+```
++ neuronCount
+```
+Methods
+```
+
+```
