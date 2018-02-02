@@ -1,7 +1,7 @@
 # Organic Neural Network (ONN)
 While inspiration for this project came from my knowledge of biological brains, I realize that implementation removes many of the simulatrities.
 
-ALL WORK (INCLUDING THIS DOCUMENT) IS IN DEVELOPMENT. - Feb. 2018
+ALL WORK (INCLUDING THIS DOCUMENT) IS IN DEVELOPMENT.
 
 ## Concept
 An ONN (1) has no implied structure and (2) treats neurons as objects which accept 1 or more inputs to generate an output value.
