@@ -23,8 +23,8 @@ Each organic neuron will contain the addresses for each of it's inputs and can p
 ```
 **Methods:**
 ```
-ONeuron()
-nonlinearFunction()
++ ONeuron()
+- nonlinearFunction()
 ```
 
 ## ONN Class
@@ -37,6 +37,8 @@ The ONN class will be used to initialize neurons and perform network training.
 
 **Methods:**
 ```
-feedForward()
-backpropegation()
++ ONN()
++ train()
+- feedForward()
+- backpropegation()
 ```
