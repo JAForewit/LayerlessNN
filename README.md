@@ -1,20 +1,33 @@
 # Organic Neural Network (ONN)
 
-### Concept
+While inspiration for this project came from my knowledge of biological brains, I realize that implementation removes many of the simulatrities.
+
+## Concept
+
 An ONN (1) has no implied structure and (2) treats neurons as objects which accept 1 or more inputs to generate an output value.
 
 #### Feed forward algorithm
-?Threshold firing?
+
+I am considering
 
 #### Backpropegation algorithm
 
-### ONeuron Class
-\+ inputs
-\+ output
-\- ?threshold firing
 
+
+### ONeuron Class
+
+Attributes
+'''
++ inputs
++ output
+- threshold
+'''
+
+Methods
+'''
 ONeuron()
 nonlinearFunction()
+'''
 
 ### ONN Class
 \+ neuronCount
