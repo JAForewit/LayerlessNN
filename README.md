@@ -1,5 +1,5 @@
 # Organic Neural Network (ONN)
-While inspiration for this project came from my knowledge of biological brains, I realize that implementation removes many of the simulatrities.
+While inspiration for this project came from my limited knowledge of biological brains, I realize that implementation removes many of the simulatrities.
 
 ALL WORK (INCLUDING THIS DOCUMENT) IS IN DEVELOPMENT.
 
