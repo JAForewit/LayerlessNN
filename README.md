@@ -17,17 +17,17 @@ I am considering
 ### ONeuron Class
 
 Attributes
-'''
+```
 + inputs
 + output
 - threshold
-'''
+```
 
 Methods
-'''
+```
 ONeuron()
 nonlinearFunction()
-'''
+```
 
 ### ONN Class
 \+ neuronCount
