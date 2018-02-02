@@ -4,7 +4,7 @@ While inspiration for this project came from my limited knowledge of biological 
 ALL WORK (INCLUDING THIS DOCUMENT) IS IN DEVELOPMENT.
 
 ## Concept
-An ONN (1) has no implied structure and (2) treats neurons as objects which accept 1 or more inputs to generate an output value.
+An ONN (1) has no implied structure and (2) treats neurons as objects which accept one or more inputs and generates an output.
 
 **Algorithms to be implemented:**
 * Feed forward 
