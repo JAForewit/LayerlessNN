@@ -4,8 +4,10 @@ While inspiration for this project came from my knowledge of biological brains, 
 ## Concept
 An ONN (1) has no implied structure and (2) treats neurons as objects which accept 1 or more inputs to generate an output value.
 
-#### Feed forward algorithm
-#### Backpropegation algorithm
+**Algorithms to be implemented:**
+* Feed forward 
+* Backpropegation
+* Error calculation
 
 ## ONeuron Class
 Each organic neuron will contain the addresses for each of it's inputs and can produce an output. I may also inmplement a firing threshold.
@@ -25,7 +27,7 @@ nonlinearFunction()
 ## ONN Class
 The ONN class will be used to initialize neurons and perform network training.
 
-**Attributes**
+**Attributes:**
 ```
 + neuronCount
 ```
