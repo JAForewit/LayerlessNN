@@ -57,3 +57,5 @@ The ONN class accepts .structure files to define a network. Input and output neu
 ```
 
 The included "example.structure" file defines the following network:
+
+![ann](https://user-images.githubusercontent.com/7318513/35781215-e7786844-09b4-11e8-9494-2ddacca68d4e.png)
