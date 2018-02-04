@@ -46,7 +46,7 @@ The ONN class will be used to initialize neurons and perform network training.
 The ONN class accepts .structure files to define a network. These files define the inputs of the hidden and output neurons. Every hidden and output neuron MUST have at least 1 input. Follow this format (in = input neuron, hn = hidden neuron, on = output neuron):
 
 ```
-[in count] [hn count] [on count]
+[in count] [on count] [hn count]
 [hn 1's first input] [hn 1's second input] ... [hn 1's ith input]
 [hn 2's first input] [hn 2's second input] ... [hn 2's jth input]
 	.						.
@@ -69,7 +69,7 @@ The included "example.structure" file defines the following network:
 
 Example.structure:
 ```
-3 4 2
+3 2 4
 0 1 2
 0 1 2
 0 1 2
