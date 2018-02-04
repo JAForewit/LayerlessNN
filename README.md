@@ -42,3 +42,18 @@ The ONN class will be used to initialize neurons and perform network training.
 - feedForward()
 - backpropegation()
 ```
+
+The ONN class accepts .structure files to define a network. Input and output neurons are NOT labeled as neurons in .structure files. i, j, k, and n are integer variables. Each pair of brackets [] should be replaced with the corresponding integer value
+
+```
+[number of inputs] [number of neurons] [number of outputs]
+[input 1 for  neuron 1] [input 2 for neuron 1] ... [input i for neuron 1]
+[input 1 for  neuron 2] [input 2 for neuron 2] ... [input j for neuron 2]
+	.						.
+	.						.
+	.						.
+[input 1 for  neuron k] [input 2 for neuron k] ... [input n for neuron k]
+
+```
+
+The included "example.structure" file defines the following network:
