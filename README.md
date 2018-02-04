@@ -43,19 +43,38 @@ The ONN class will be used to initialize neurons and perform network training.
 - backpropegation()
 ```
 
-The ONN class accepts .structure files to define a network. Input and output neurons are NOT labeled as neurons in .structure files. i, j, k, and n are integer variables. Each pair of brackets [] should be replaced with the corresponding integer value
+The ONN class accepts .structure files to define a network. These files define the inputs of the hidden and output neurons. Every hidden and output neuron MUST have at least 1 input. Follow this format (in = input neuron, hn = hidden neuron, on = output neuron):
 
 ```
-[number of inputs] [number of neurons] [number of outputs]
-[input 1 for  neuron 1] [input 2 for neuron 1] ... [input i for neuron 1]
-[input 1 for  neuron 2] [input 2 for neuron 2] ... [input j for neuron 2]
+[in count] [hn count] [on count]
+[hn 1's first input] [hn 1's second input] ... [hn 1's ith input]
+[hn 2's first input] [hn 2's second input] ... [hn 2's jth input]
 	.						.
 	.						.
 	.						.
-[input 1 for  neuron k] [input 2 for neuron k] ... [input n for neuron k]
-
+[hn n's first input] [hn n's second input] ... [hn n's kth input]
+[on 1's first input] [on 1's second input] ... [on 1's ith input]
+[on 2's first input] [on 2's second input] ... [on 2's jth input]
+	.						.
+	.						.
+	.						.
+[on n's first input] [on n's second input] ... [hon n's kth input]
 ```
+
+replace each set of brackets with the corresponding integer.
 
 The included "example.structure" file defines the following network:
 
-![ann](https://user-images.githubusercontent.com/7318513/35781220-1095c9e2-09b5-11e8-95c9-354ad55c6098.png)
+![ann](https://user-images.githubusercontent.com/7318513/35781525-3f533c5c-09b9-11e8-84f9-7e2363d1ea06.png)
+
+Example.structure:
+```
+3 4 2
+0 1 2
+0 1 2
+0 1 2
+0 1 2
+3 4 5 6
+3 4 5 6
+```
+
