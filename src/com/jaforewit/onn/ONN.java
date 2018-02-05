@@ -11,6 +11,7 @@ TODO: make a training function and error calculation
  */
 
 import java.io.*;
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 public class ONN {
@@ -26,7 +27,7 @@ public class ONN {
     private Neuron neurons[];   // array holding all neurons (including hidden neurons)
 
 
-    public ONN(String filename) {
+    public ONN(String filename) throws Exception {
         try {
             // reading .structure file
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -64,6 +65,7 @@ public class ONN {
                 System.out.println();
             }
 
+
             // verifying the file has ended
             if (reader.readLine() != null) throw new Exception();
 
@@ -74,17 +76,19 @@ public class ONN {
             System.out.println("\nThe requested .structure file does not exist."
                     + "Please review README.md for formatting instructions.");
             e.printStackTrace(System.out);
+            throw e;
         }
         catch (Exception e) {
             System.out.println("\nThe given .structure file has an invalid format."
                     + "\nPlease review README.md for formatting instructions.");
             e.printStackTrace(System.out);
+            throw e;
         }
     }
 
 
     public double[] feedForward(double[] inputs) {
-        if (inputs.length != inputCount) return null;
+        if (inputs.length != inputCount) throw new InvalidParameterException();
 
         // assigning input values
         for (int i=0; i<inputCount; i++) neurons[i].setOutput(inputs[i]);
