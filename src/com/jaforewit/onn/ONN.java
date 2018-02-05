@@ -1,34 +1,30 @@
 package com.jaforewit.onn;
 
 
-//
-// n refers to neuron
-//
-//
+/*
+Organic Neural Network - ONN Class
+ */
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class ONN {
 
-    private int timeStep = 0;
-    private int inputCount;
-    private int outputCount;
+    private int timeStep = 0;   // the current timestep
+    private int inputCount;     // number of input neurons
+    private int outputCount;    // number of output neurons
+    private Neuron neurons[];   // array holding all neurons (including hidden neurons)
 
-    private Neuron neurons[];
 
-    public ONN(String fileName) {
-
+    public ONN(String filename) {
         try {
-            /*
-            STILL NEEDED: check for valid .structure file
-             */
-            System.out.println("Accepting input from " + fileName + ":");
+            // reading .structure file
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
 
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            System.out.println("Accepting input from " + filename + ":");
 
-            // expecting [input neuron count] [hidden neuron count] [output neuron count]
+
+            // reading network critical definitions
             int[] array = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
 
             inputCount =  array[0];
@@ -37,35 +33,53 @@ public class ONN {
 
             System.out.println(array[0] + " " +  array[1]  + " " + array[2]);
 
-            // initialize neurons
+
+            // initializing neurons based on critical definitions
             for (int i=0; i<neurons.length; i++) neurons[i] = new Neuron();
 
-            // set inputs for each hidden and output neuron
+
+            // setting inputs for each hidden and output neuron
             for (int i = inputCount; i < neurons.length; i++) {
                 int[] nextInputs = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
 
-                for (int j=0; j<nextInputs.length; j++) {
-                    neurons[i].addInput(neurons[nextInputs[j]]);
+                for (int input : nextInputs) {
+                    neurons[i].addInput(neurons[input]);
 
-                    System.out.print(nextInputs[j] + " ");
+                    System.out.print(input + " ");
                 }
                 System.out.println();
             }
 
+
+            // verifying the file has ended
+            if (reader.readLine() != null) throw new Exception();
+
             System.out.println("Success! " + neurons.length + " neurons, "
                     + inputCount + " inputs, " + outputCount + " ouputs");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("\nThe requested .structure file does not exist."
+                    + "Please review README.md for formatting instructions.");
+            e.printStackTrace(System.out);
+        }
+        catch (Exception e) {
+            System.out.println("\nThe given .structure file has an invalid format."
+                    + "\nPlease review README.md for formatting instructions.");
+            e.printStackTrace(System.out);
         }
     }
+
 
     private boolean feed() {
         return true;
     }
+
+
     private boolean backprop() {
         return true;
     }
+
+
     private void sigmoid() {
 
     }
