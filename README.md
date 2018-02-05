@@ -17,14 +17,11 @@ Each organic neuron will contain the addresses for each of it's inputs and can p
 
 **Attributes:**
 ```
-+ inputs
-+ output
-- threshold
+// NEEDS UPDATING
 ```
 **Methods:**
 ```
-+ ONeuron()
-- nonlinearFunction()
+// NEEDS UPDATING
 ```
 
 ## ONN Class
@@ -32,15 +29,12 @@ The ONN class will be used to initialize neurons and perform network training.
 
 **Attributes:**
 ```
-+ neuronCount
+// NEEDS UPDATING
 ```
 
 **Methods:**
 ```
-+ ONN()
-+ train()
-- feedForward()
-- backpropegation()
+// NEEDS UPDATING
 ```
 
 The ONN class accepts .structure files to define a network. These files define the inputs of the hidden and output neurons. Every hidden and output neuron MUST have at least 1 input. Follow this format (in = input neuron, hn = hidden neuron, on = output neuron):
@@ -67,7 +61,7 @@ The included "example.structure" file defines the following network:
 
 ![ann](https://user-images.githubusercontent.com/7318513/35781525-3f533c5c-09b9-11e8-84f9-7e2363d1ea06.png)
 
-Example.structure:
+Example.structure contents:
 ```
 3 2 4
 0 1 2
