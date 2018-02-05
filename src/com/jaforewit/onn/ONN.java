@@ -10,6 +10,8 @@ TODO: create a file to store weights and bias's for loading networks
 TODO: make a training function and error calculation
  */
 
+import com.sun.media.sound.InvalidFormatException;
+
 import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
@@ -28,62 +30,49 @@ public class ONN {
 
 
     public ONN(String filename) throws Exception {
-        try {
-            // reading .structure file
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+        // reading .structure file
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
 
-            System.out.println("Accepting input from " + filename + ":");
-
-
-            // reading network critical definitions
-            int[] array = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
-
-            inputCount =  array[0];
-            outputCount = array[1];
-            neuronCount = inputCount + outputCount + array[2];
-            neurons = new Neuron[neuronCount];
-
-            System.out.println(array[0] + " " +  array[1]  + " " + array[2]);
+        System.out.println("Accepting input from " + filename + ":");
 
 
-            // initializing neurons with a random bias
-            double randBias = (Math.random() * (MAX_BIAS - MIN_BIAS)) + MIN_BIAS;
-            for (int i=0; i<neurons.length; i++) neurons[i] = new Neuron(randBias);
+        // reading network critical definitions
+        int[] array = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
+
+        inputCount = array[0];
+        outputCount = array[1];
+        neuronCount = inputCount + outputCount + array[2];
+        neurons = new Neuron[neuronCount];
+
+        System.out.println(array[0] + " " + array[1] + " " + array[2]);
 
 
-            // setting inputs and random weights for each hidden and output neuron
-            double randWeight;
-            for (int i = inputCount; i < neurons.length; i++) {
-                int[] nextInputs = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
+        // initializing neurons with a random bias
+        double randBias = (Math.random() * (MAX_BIAS - MIN_BIAS)) + MIN_BIAS;
+        for (int i = 0; i < neurons.length; i++) neurons[i] = new Neuron(randBias);
 
-                for (int input : nextInputs) {
-                    randWeight = (Math.random() * (MAX_WEIGHT - MIN_WEIGHT)) + MIN_WEIGHT;
-                    neurons[i].addInput(neurons[input],randWeight);
 
-                    System.out.print(input + " ");
-                }
-                System.out.println();
+        // setting inputs and random weights for each hidden and output neuron
+        double randWeight;
+        for (int i = inputCount; i < neurons.length; i++) {
+            int[] nextInputs = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
+
+            for (int input : nextInputs) {
+                randWeight = (Math.random() * (MAX_WEIGHT - MIN_WEIGHT)) + MIN_WEIGHT;
+                neurons[i].addInput(neurons[input], randWeight);
+
+                System.out.print(input + " ");
             }
+            System.out.println();
+        }
 
 
-            // verifying the file has ended
-            if (reader.readLine() != null) throw new Exception();
+        // verifying the file has ended
+        if (reader.readLine() != null) throw new Exception();
 
-            System.out.println("Success! " + neurons.length + " neurons, "
-                    + inputCount + " inputs, " + outputCount + " ouputs");
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("\nThe requested .structure file does not exist."
-                    + "Please review README.md for formatting instructions.");
-            e.printStackTrace(System.out);
-            throw e;
-        }
-        catch (Exception e) {
-            System.out.println("\nThe given .structure file has an invalid format."
-                    + "\nPlease review README.md for formatting instructions.");
-            e.printStackTrace(System.out);
-            throw e;
-        }
+        System.out.println("Success! " + neurons.length + " neurons, "
+                + inputCount + " inputs, " + outputCount + " ouputs");
+
     }
 
 
