@@ -22,7 +22,7 @@ public class ONN {
     private final double MIN_WEIGHT = -1;
     private final double MAX_WEIGHT = 1;
 
-    //private int timeStep = 0;   // the current time step
+    private int timeStep = 1;   // the current time step
     private int inputCount;     // number of input neurons
     private int outputCount;    // number of output neurons
     private int neuronCount;
@@ -72,7 +72,6 @@ public class ONN {
 
         System.out.println("Success! " + neurons.length + " neurons, "
                 + inputCount + " inputs, " + outputCount + " ouputs");
-
     }
 
 
@@ -80,16 +79,16 @@ public class ONN {
         if (inputs.length != inputCount) throw new InvalidParameterException();
 
         // assigning input values
-        for (int i=0; i<inputCount; i++) neurons[i].setOutput(inputs[i]);
+        for (int i=0; i<inputCount; i++) neurons[i].manSetOutput(inputs[i]);
 
         double[] outputs = new double[outputCount];
         for (int i=0; i<outputCount; i++) {
+            neurons[neuronCount - 1 - i].calcOutput(timeStep);
             outputs[i] = neurons[neuronCount - i - 1].getOutput();
         }
 
         return outputs;
     }
-
 
 
     private boolean backprop() {
