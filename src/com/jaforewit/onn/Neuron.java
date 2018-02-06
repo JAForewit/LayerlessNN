@@ -1,49 +1,41 @@
 package com.jaforewit.onn;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Neuron {
 
-        private int timeStep;
-        private double bias;
-        private double output;
-        private double outputDeriv;
-        private HashMap<Neuron, Double> inputs; // Key: input neuron, Value: weight
-
+    private double bias;
+    private double output;
+    private double outputDeriv;
+    private HashMap<Neuron, Double> outputs; // Key: input neuron, Value: weight
 
     Neuron(double bias) {
         this.bias = bias;
-        timeStep = 0;
-        output = 0.0;
-        outputDeriv = 0.0;
-        inputs = new HashMap<>();
+        output = sigmoid(this.bias);
+        outputDeriv = output * (1 - output);
+        outputs = new HashMap<>();
     }
 
     public double getOutput() { return output; }
 
     public double getOutputDeriv() { return outputDeriv; }
 
-    public void addInput(Neuron n, double weight) { inputs.put(n,weight); }
+    public void addOutput(Neuron n, double weight) { outputs.put(n,weight); }
 
-    public void manSetOutput(double output) { this.output = output; }
-
-    public void calcOutput(int time) {
-        timeStep++;
-        if (inputs.isEmpty()) return;
-
-        double sum = bias;
-        for (Neuron n : inputs.keySet()) {
-
-            if (n.timeStep < time) {
-                n.calcOutput(time);
-            }
-            sum += (inputs.get(n) * n.getOutput());
-        }
-
-        output = sigmoid(sum);
+    public void feedForward(double value, double weight) {
+        output = sigmoid(Math.log(output/(1-output)) + value*weight);
         outputDeriv = output * (1 - output);
+
+        for (Neuron n : outputs.keySet()) n.feedForward(output, outputs.get(n));
+
+        // TODO: add math to README.md
     }
 
-        private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
+    public void feedForward(double value) {
+        output = value;
+        for (Neuron n : outputs.keySet()) n.feedForward(output, outputs.get(n));
+    }
 
+    private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
 }

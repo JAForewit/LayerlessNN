@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            ONN net = new ONN("example.structure");
+            ONN net = new ONN("example2.structure");
             double[] inputs = {1, 2, 3};
             double[] outputs = net.feedForward(inputs);
 
