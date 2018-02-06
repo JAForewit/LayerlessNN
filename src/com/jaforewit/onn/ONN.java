@@ -20,7 +20,6 @@ public class ONN {
     private final double MIN_WEIGHT = -1;
     private final double MAX_WEIGHT = 1;
 
-    private int timeStep = 1;   // the current time step
     private int inputCount;     // number of input neurons
     private int outputCount;    // number of output neurons
     private int neuronCount;
@@ -83,6 +82,10 @@ public class ONN {
     private void backpropError(double[] targets) {
         // TODO: implement
         // error for output neurons' output = (output - target) * outputDeriv
+        double err;
+        for (Double output : getLatestOutputs()) {
+
+        }
         // error for hidden neurons' output = ...
     }
 }
