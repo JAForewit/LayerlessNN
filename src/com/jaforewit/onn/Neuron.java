@@ -4,46 +4,37 @@ import java.util.HashMap;
 
 public class Neuron {
 
-        private int timeStep;
-        private double bias;
-        private double output;
-        private double outputDeriv;
-        private HashMap<Neuron, Double> inputs; // Key: input neuron, Value: weight
-
+    private double bias;
+    private double output;
+    private double outputDerivative;
+    private HashMap<Neuron, Double> outputAxons; // Key: neuron, Value: weight
 
     Neuron(double bias) {
         this.bias = bias;
-        timeStep = 0;
-        output = 0.0;
-        outputDeriv = 0.0;
-        inputs = new HashMap<>();
+        output = sigmoid(this.bias);
+        outputDerivative = output * (1 - output);
+        outputAxons = new HashMap<>();
     }
 
     public double getOutput() { return output; }
 
-    public double getOutputDeriv() { return outputDeriv; }
+    public double getOutputDerivative() { return outputDerivative; }
 
-    public void addInput(Neuron n, double weight) { inputs.put(n,weight); }
+    public void addOutput(Neuron n, double weight) { outputAxons.put(n,weight); }
 
-    public void manSetOutput(double output) { this.output = output; }
+    public void feedForward(double value, double weight) {
+        output = sigmoid(Math.log(output/(1-output)) + value*weight);
+        outputDerivative = output * (1 - output);
 
-    public void calcOutput(int time) {
-        timeStep++;
-        if (inputs.isEmpty()) return;
+        for (Neuron n : outputAxons.keySet()) n.feedForward(output, outputAxons.get(n));
 
-        double sum = bias;
-        for (Neuron n : inputs.keySet()) {
-
-            if (n.timeStep < time) {
-                n.calcOutput(time);
-            }
-            sum += (inputs.get(n) * n.getOutput());
-        }
-
-        output = sigmoid(sum);
-        outputDeriv = output * (1 - output);
+        // TODO: add math to README.md
     }
 
-        private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
+    public void feedForward(double value) {
+        output = value;
+        for (Neuron n : outputAxons.keySet()) n.feedForward(output, outputAxons.get(n));
+    }
 
+    private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
 }

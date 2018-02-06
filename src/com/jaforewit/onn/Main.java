@@ -7,12 +7,12 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            ONN net = new ONN("example.structure");
+            ONN net = new ONN("example2.structure");
             double[] inputs = {1, 2, 3};
-            double[] outputs = net.feedForward(inputs);
+            net.feedForward(inputs);
 
             System.out.println("Feed forward results:");
-            for (double output : outputs) System.out.println("\t" + output);
+            for (double output : net.getLatestOutputs()) System.out.println("\t" + output);
         }
         catch (InvalidParameterException e) {
             System.out.println("\nFailed to feed forward through the network."
