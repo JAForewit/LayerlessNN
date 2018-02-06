@@ -10,8 +10,6 @@ TODO: create a file to store weights and bias's for loading networks
 TODO: make a training function and error calculation
  */
 
-import com.sun.media.sound.InvalidFormatException;
-
 import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
@@ -27,7 +25,7 @@ public class ONN {
     private int outputCount;    // number of output neurons
     private int neuronCount;
     private Neuron neurons[];   // array holding all neurons (including hidden neurons)
-    private double[] lastOutput;
+    private double[] latestOutputs;
 
 
     public ONN(String filename) throws Exception {
@@ -43,7 +41,7 @@ public class ONN {
         outputCount = array[1];
         neuronCount = inputCount + outputCount + array[2];
         neurons = new Neuron[neuronCount];
-        lastOutput = new double[outputCount];
+        latestOutputs = new double[outputCount];
 
         System.out.println(array[0] + " " + array[1] + " " + array[2]);
 
@@ -72,20 +70,19 @@ public class ONN {
                 + inputCount + " inputs, " + outputCount + " ouputs");
     }
 
-    public double[] getLastOutput() { return lastOutput; }
+    public double[] getLatestOutputs() {
+        for (int i=0; i<outputCount; i++) latestOutputs[i] = neurons[neuronCount - i - 1].getOutput();
+        return latestOutputs;
+    }
 
-    public double[] feedForward(double[] inputs) {
+    public void feedForward(double[] inputs) {
         if (inputs.length != inputCount) throw new InvalidParameterException();
-
-        // assigning input values
         for (int i=0; i<inputCount; i++) neurons[i].feedForward(inputs[i]);
-
-        for (int i=0; i<outputCount; i++) lastOutput[i] = neurons[neuronCount - i - 1].getOutput();
-        return lastOutput;
     }
 
     private void backpropError(double[] targets) {
+        // TODO: implement
         // error for output neurons' output = (output - target) * outputDeriv
-        // error for hidden neurons' output =
+        // error for hidden neurons' output = ...
     }
 }

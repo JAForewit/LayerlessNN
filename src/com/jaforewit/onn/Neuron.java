@@ -1,40 +1,39 @@
 package com.jaforewit.onn;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class Neuron {
 
     private double bias;
     private double output;
-    private double outputDeriv;
-    private HashMap<Neuron, Double> outputs; // Key: input neuron, Value: weight
+    private double outputDerivative;
+    private HashMap<Neuron, Double> outputAxons; // Key: neuron, Value: weight
 
     Neuron(double bias) {
         this.bias = bias;
         output = sigmoid(this.bias);
-        outputDeriv = output * (1 - output);
-        outputs = new HashMap<>();
+        outputDerivative = output * (1 - output);
+        outputAxons = new HashMap<>();
     }
 
     public double getOutput() { return output; }
 
-    public double getOutputDeriv() { return outputDeriv; }
+    public double getOutputDerivative() { return outputDerivative; }
 
-    public void addOutput(Neuron n, double weight) { outputs.put(n,weight); }
+    public void addOutput(Neuron n, double weight) { outputAxons.put(n,weight); }
 
     public void feedForward(double value, double weight) {
         output = sigmoid(Math.log(output/(1-output)) + value*weight);
-        outputDeriv = output * (1 - output);
+        outputDerivative = output * (1 - output);
 
-        for (Neuron n : outputs.keySet()) n.feedForward(output, outputs.get(n));
+        for (Neuron n : outputAxons.keySet()) n.feedForward(output, outputAxons.get(n));
 
         // TODO: add math to README.md
     }
 
     public void feedForward(double value) {
         output = value;
-        for (Neuron n : outputs.keySet()) n.feedForward(output, outputs.get(n));
+        for (Neuron n : outputAxons.keySet()) n.feedForward(output, outputAxons.get(n));
     }
 
     private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
