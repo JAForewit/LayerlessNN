@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 public class Neuron {
 
-    private int timeStep;
-    private double bias;
-    private double output;
-    private double outputDeriv;
-    private HashMap<Neuron, Double> inputs; // Key: input neuron, Value: weight
+        private int timeStep;
+        private double bias;
+        private double output;
+        private double outputDeriv;
+        private HashMap<Neuron, Double> inputs; // Key: input neuron, Value: weight
 
 
-    public Neuron(double bias) {
+    Neuron(double bias) {
         this.bias = bias;
         timeStep = 0;
         output = 0.0;
@@ -44,6 +44,6 @@ public class Neuron {
         outputDeriv = output * (1 - output);
     }
 
-    private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
+        private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
 
 }

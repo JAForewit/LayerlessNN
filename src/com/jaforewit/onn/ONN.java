@@ -91,7 +91,10 @@ public class ONN {
     }
 
 
-    private boolean backprop() {
-        return true;
-    }
+
+        private void backpropError(double[] targets) {
+            // error for output neurons' output = (output - target) * outputDeriv
+            // error for hidden neurons' output =
+
+        }
 }
