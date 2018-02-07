@@ -80,8 +80,7 @@ public class ONN {
     }
 
 
-    private void backpropegate(double[] inputs, double[] targets, double rate) {
-        // TODO: implement
+    private void backpropegation(double[] inputs, double[] targets, double rate) {
         if (inputs.length != inputCount || targets.length != outputCount)
             throw new InvalidParameterException();
 
@@ -92,5 +91,21 @@ public class ONN {
 
         // push backpropagation from the input neurons
         for (int i=0; i<inputCount; i++) { neurons[i].pushBackpropagation(rate); }
+    }
+
+
+    // Mean Squared Error
+    public double MSE (double[] inputs, double[] targets) {
+        if (inputs.length != inputCount || targets.length != outputCount)
+            throw new InvalidParameterException();
+
+        feedForward(inputs);
+
+        double sum = 0;
+        for (int i=0; i<outputCount; i++)
+            sum += (targets[i] - getLatestOutputs()[i]) * (targets[i] - getLatestOutputs()[i]);
+
+        return sum / outputCount;
+        // TODO: verify this math
     }
 }
