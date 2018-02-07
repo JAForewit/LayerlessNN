@@ -55,7 +55,7 @@ public class ONN {
 
             for (int output : nextLines) {
                 randWeight = (Math.random() * (MAX_WEIGHT - MIN_WEIGHT)) + MIN_WEIGHT;
-                neurons[i].addOutput(neurons[output], randWeight);
+                neurons[i].addOutputAxon(neurons[output], randWeight);
 
                 System.out.print(output + " ");
             }
@@ -70,7 +70,7 @@ public class ONN {
     }
 
     public double[] getLatestOutputs() {
-        for (int i=0; i<outputCount; i++) latestOutputs[i] = neurons[neuronCount - i - 1].getOutput();
+        for (int i=0; i<outputCount; i++) latestOutputs[i] = neurons[neuronCount-i-1].getOutput();
         return latestOutputs;
     }
 
@@ -79,13 +79,18 @@ public class ONN {
         for (int i=0; i<inputCount; i++) neurons[i].feedForward(inputs[i]);
     }
 
-    private void backpropError(double[] targets) {
-        // TODO: implement
-        // error for output neurons' output = (output - target) * outputDeriv
-        double err;
-        for (Double output : getLatestOutputs()) {
 
-        }
-        // error for hidden neurons' output = ...
+    private void backpropegate(double[] inputs, double[] targets, double rate) {
+        // TODO: implement
+        if (inputs.length != inputCount || targets.length != outputCount)
+            throw new InvalidParameterException();
+
+        feedForward(inputs);
+
+        // giving targets to output neurons
+        for (int i=0; i<outputCount; i++) { neurons[neuronCount-i-1].setErrorFromTarget(targets[i]); }
+
+        // push backpropagation from the input neurons
+        for (int i=0; i<inputCount; i++) { neurons[i].pushBackpropagation(rate); }
     }
 }
