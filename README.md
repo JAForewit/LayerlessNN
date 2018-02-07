@@ -41,34 +41,35 @@ The ONN class accepts .structure files to define a network. These files define t
 
 ```
 [in count] [on count] [hn count]
-[hn 1's first input] [hn 1's second input] ... [hn 1's ith input]
-[hn 2's first input] [hn 2's second input] ... [hn 2's jth input]
+[in 0's first output] [in 0's second output] ... [in 0's ith output]
+[in 1's first output] [in 1's second output] ... [in 1's jth output]
 	.						.
 	.						.
 	.						.
-[hn n's first input] [hn n's second input] ... [hn n's kth input]
-[on 1's first input] [on 1's second input] ... [on 1's ith input]
-[on 2's first input] [on 2's second input] ... [on 2's jth input]
+[in n's first output] [in n's second output] ... [in n's kth output]
+[hn 0's first output] [hn 0's second output] ... [hn 0's ith output]
+[hn 1's first output] [hn 1's second output] ... [hn 1's jth output]
 	.						.
 	.						.
 	.						.
-[on n's first input] [on n's second input] ... [hon n's kth input]
+[hn n's first output] [hn n's second output] ... [hn n's kth output]
 ```
 
 replace each set of brackets with the corresponding integer.
 
-The included "example.structure" file defines the following network:
+The included "example2.structure" file defines the following network:
 
 ![ann](https://user-images.githubusercontent.com/7318513/35781525-3f533c5c-09b9-11e8-84f9-7e2363d1ea06.png)
 
-Example.structure contents:
+Example2.structure contents:
 ```
 3 2 4
-0 1 2
-0 1 2
-0 1 2
-0 1 2
 3 4 5 6
 3 4 5 6
+3 4 5 6
+7 8
+7 8
+7 8
+7 8
 ```
 

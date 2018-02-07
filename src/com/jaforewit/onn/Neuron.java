@@ -14,7 +14,7 @@ public class Neuron {
         canBackpropagate = false;
         this.bias = bias;
         output = sigmoid(this.bias);
-        outputDerivative = output * (1 - output);
+        outputDerivative = output * (1d - output);
         error = 0;
         outputAxons = new HashMap<>();
     }
@@ -22,7 +22,7 @@ public class Neuron {
     public double getError() { return error; }
     public double getOutput() { return output; }
     public void addOutputAxon(Neuron n, double weight) { outputAxons.put(n,weight); }
-    private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
+    private double sigmoid(double x) { return 1d / (1d + Math.exp(-x)); }
 
     public void feedForward(double value, double weight) {
         canBackpropagate = true;
@@ -31,7 +31,7 @@ public class Neuron {
 
         for (Neuron n : outputAxons.keySet()) n.feedForward(output, outputAxons.get(n));
 
-        // TODO: add math to README.md
+        // TODO: verify this math
     }
 
     public void feedForward(double value) {
@@ -63,6 +63,6 @@ public class Neuron {
         error = sum * outputDerivative;
 
         // adjust bias
-        bias += -rate * getError();
+        bias += -rate * error;
     }
 }

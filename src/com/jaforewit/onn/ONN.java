@@ -7,7 +7,6 @@ This class accepts .structure files to define the network.
 Please review README.md for more information on .structure files.
 
 TODO: create a file to store weights and bias's for loading networks
-TODO: make a training function and error calculation
  */
 
 import java.io.*;
@@ -17,12 +16,12 @@ import java.util.Arrays;
 public class ONN {
     private final double MIN_BIAS = -0.7;
     private final double MAX_BIAS = 0.5;
-    private final double MIN_WEIGHT = -1;
-    private final double MAX_WEIGHT = 1;
+    private final double MIN_WEIGHT = -5.0;
+    private final double MAX_WEIGHT = 5.0;
 
     private int inputCount;     // number of input neurons
     private int outputCount;    // number of output neurons
-    private int neuronCount;
+    private int neuronCount;    // total number of neurons
     private Neuron neurons[];   // array holding all neurons (including hidden neurons)
     private double[] latestOutputs;
 
@@ -45,7 +44,7 @@ public class ONN {
         System.out.println(array[0] + " " + array[1] + " " + array[2]);
 
         // initializing neurons with a random bias
-        double randBias = (Math.random() * (MAX_BIAS - MIN_BIAS)) + MIN_BIAS;
+        double randBias = 0.5; //(Math.random() * (MAX_BIAS - MIN_BIAS)) + MIN_BIAS;
         for (int i = 0; i < neurons.length; i++) neurons[i] = new Neuron(randBias);
 
         // setting outputs and random weights for each hidden and output neuron
@@ -54,7 +53,7 @@ public class ONN {
             int[] nextLines = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
 
             for (int output : nextLines) {
-                randWeight = (Math.random() * (MAX_WEIGHT - MIN_WEIGHT)) + MIN_WEIGHT;
+                randWeight = 0.5; //(Math.random() * (MAX_WEIGHT - MIN_WEIGHT)) + MIN_WEIGHT;
                 neurons[i].addOutputAxon(neurons[output], randWeight);
 
                 System.out.print(output + " ");
@@ -65,8 +64,8 @@ public class ONN {
         // verifying the file has ended
         if (reader.readLine() != null) throw new Exception();
 
-        System.out.println("Success! " + neurons.length + " neurons, "
-                + inputCount + " inputs, " + outputCount + " ouputs");
+        System.out.println("Success! " + neuronCount + " neurons, "
+                + inputCount + " inputs, " + outputCount + " outputs");
     }
 
     public double[] getLatestOutputs() {
@@ -80,7 +79,7 @@ public class ONN {
     }
 
 
-    private void backpropegation(double[] inputs, double[] targets, double rate) {
+    public void backpropagation(double[] inputs, double[] targets, double rate) {
         if (inputs.length != inputCount || targets.length != outputCount)
             throw new InvalidParameterException();
 
@@ -92,7 +91,6 @@ public class ONN {
         // push backpropagation from the input neurons
         for (int i=0; i<inputCount; i++) { neurons[i].pushBackpropagation(rate); }
     }
-
 
     // Mean Squared Error
     public double MSE (double[] inputs, double[] targets) {
@@ -106,6 +104,12 @@ public class ONN {
             sum += (targets[i] - getLatestOutputs()[i]) * (targets[i] - getLatestOutputs()[i]);
 
         return sum / outputCount;
-        // TODO: verify this math
+    }
+
+    public void train (double[] inputs, double[] targets, double rate, int iterations) {
+        if (inputs.length != inputCount || targets.length != outputCount)
+            throw new InvalidParameterException();
+
+        for (int i = 0; i < iterations; i++) backpropagation(inputs,targets,rate);
     }
 }
