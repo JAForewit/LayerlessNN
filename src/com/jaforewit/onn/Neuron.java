@@ -25,9 +25,11 @@ public class Neuron {
 
 
     // FOR TESTING ONLY
-    public HashMap<Neuron, Double> getInputAxons() { return inputAxons; }
-    public HashMap<Neuron, Double> getOutputAxons() { return outputAxons; }
+    HashMap<Neuron, Double> getInputAxons() { return inputAxons; }
+    HashMap<Neuron, Double> getOutputAxons() { return outputAxons; }
     public double getBias() { return bias; }
+
+
 
 
     // Must be called if removed from an ONN
@@ -62,6 +64,16 @@ public class Neuron {
             n.removeInputAxon(this);
         }
     }
+    public void updateInputAxon(Neuron n, double weight) {
+        if (inputAxons.get(n) == weight) return;
+        inputAxons.replace(n, weight);
+        n.updateOutputAxon(this, weight);
+    }
+    public void updateOutputAxon(Neuron n, double weight) {
+        if (outputAxons.get(n) == weight) return;
+        outputAxons.replace(n, weight);
+        n.updateInputAxon(this, weight);
+    }
 
     public void feedForward(double value) {
         output = value;
@@ -70,9 +82,9 @@ public class Neuron {
 
     public void backpropagate(double target, double rate) {
         error = (output - target) * output * (1 - output);
+        bias += -rate * error;
         for (Neuron n : inputAxons.keySet()) n.backpropagate(this, rate);
-
-        // TODO: update bias
+        output = sigmoid(bias);
     }
 
 
@@ -94,22 +106,24 @@ public class Neuron {
         if (outputCounter < outputAxons.size()) return;
 
         error *= output * (1 - output);
-
-        // TODO: update bias
+        bias += -rate * error;
 
         // update weights
         double newWeight;
         for (Neuron i : outputAxons.keySet()) {
             newWeight = outputAxons.get(i) - rate * output * i.getError();
-            removeOutputAxon(i);
-            addInputAxon(i, newWeight);
+
+            updateOutputAxon(i, newWeight);
+            //outputAxons.replace(i, newWeight);
+            //i.getInputAxons().replace(this, newWeight);
         }
 
         for (Neuron i : inputAxons.keySet()) i.backpropagate(this, rate);
+
+        output = sigmoid(bias);
         outputCounter = 0;
     }
 
     private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
-
     private double logit(double x) { return Math.log(x / (1 - x)); }
 }

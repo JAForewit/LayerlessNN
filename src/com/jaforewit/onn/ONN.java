@@ -119,7 +119,7 @@ public class ONN {
     // FOR TESTING ONLY
     public void printNet() {
         for (int i = 0; i < neuronCount; i++) {
-            System.out.print("\nNeuron " + i + " - bias " + neurons[i].getBias());
+            System.out.printf("\nNeuron %d - bias %.4e", i, neurons[i].getBias());
             System.out.print(" - weights ");
             for (Neuron n : neurons[i].getOutputAxons().keySet()) {
                 System.out.printf("%.2f ", neurons[i].getOutputAxons().get(n));
@@ -146,7 +146,7 @@ public class ONN {
 
         feedForward(inputs);
 
-        for (int i=0; i<outputCount; i++) { neurons[i].backpropagate(targets[i], rate); }
+        for (int i=0; i<outputCount; i++) { neurons[neuronCount-i-1].backpropagate(targets[i], rate); }
     }
 
 
