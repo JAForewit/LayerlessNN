@@ -26,7 +26,6 @@ public class OrganicDNN {
     private int outputCount;    // number of output neurons
     private int neuronCount;    // total number of neurons
     private Neuron neurons[];
-    private double[] latestOutputs;
 
     /**
      * Creates a neural network defined by the number of input neurons, output neurons,
@@ -47,7 +46,6 @@ public class OrganicDNN {
             outputCount = nextLine[1];
             neuronCount = inputCount + outputCount + nextLine[2];
             neurons = new Neuron[neuronCount];
-            latestOutputs = new double[outputCount];
 
             // initialize neurons with a random bias
             double randBias;
@@ -75,20 +73,35 @@ public class OrganicDNN {
     }
 
     /**
+     * Returns the number of input neurons
+     *
+     * @return number of input neurons
+     */
+    public int getInputCount() { return inputCount; }
+
+    /**
+     * Returns the number of output neurons
+     *
+     * @return number of output neurons
+     */
+    public int getOutputCount() { return inputCount; }
+
+    /**
      * Feeds input values into the neural network and returns the outputs.
      *
      * @param inputs values for each input neuron
      * @return the outputs of each output neuron
      */
-    public double[] calculateOutputs(double[] inputs) {
+    public double[] getOutputs(double[] inputs) {
         if (inputs.length != inputCount) {
             LOGGER.log(Level.SEVERE, "Passed an invalid input size to calculateOutputs()."
                     + " Expected inputs[" + inputCount + "].");
             return null;
         }
+        double[] outputs = new double[outputCount];
         feedForward(inputs);
-        for (int i=0; i<outputCount; i++) latestOutputs[i] = neurons[neuronCount-i-1].getOutput();
-        return latestOutputs;
+        for (int i=0; i<outputCount; i++) outputs[i] = neurons[neuronCount-i-1].getOutput();
+        return outputs;
     }
 
     /**
@@ -149,10 +162,9 @@ public class OrganicDNN {
         }
         double sum = 0;
         for (int i=0; i<outputCount; i++)
-            sum += (targets[i] - calculateOutputs(inputs)[i]) * (targets[i] - calculateOutputs(inputs)[i]);
+            sum += (targets[i] - getOutputs(inputs)[i]) * (targets[i] - getOutputs(inputs)[i]);
         return sum / (2d * outputCount);
     }
-
 
     /**
      * Provides the network with values for the input neurons and feeds them through
