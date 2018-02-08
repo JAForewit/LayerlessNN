@@ -1,19 +1,17 @@
-package OrganicNN;
+package OrganicDNN;
 
 import java.util.Arrays;
-import TrainSet.TrainSet;
 
 public class Main {
     public static void main(String[] args) {
 
-
         try {
-            ONN net = new ONN("test.structure");
+            OrganicDNN net = new OrganicDNN("test.structure");
 
             int iterations = 10000;
             double rate = 0.3;
             double[] inputs = {2d, 3d};
-            double[] targets = {0.3, 0.7, 0.1};
+            double[] targets = {0.1, 0.9};
 
             net.train(inputs, targets, rate, iterations);
 
@@ -21,9 +19,7 @@ public class Main {
             System.out.println(Arrays.toString(net.calculateOutputs(inputs)));
             System.out.printf("MSE: %.3f", net.MSE(inputs,targets));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
 
     }
 }

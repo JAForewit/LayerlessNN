@@ -1,22 +1,25 @@
-package OrganicNN;
+package OrganicDNN;
 
-/**
- * Created by JAForewit on 02.08.2017
- */
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import TrainSet.TrainSet;
 
-
-public class ONN {
-    private static final Logger LOGGER = Logger.getLogger( ONN.class.getName() );
+/**
+ * Uses the Neuron class to create an organic Deep Neural Network (DNN),
+ * a "structureless" neural network defined by neuron axons instead of layers.
+ *
+ * @author JAForewit
+ * @version 1.0, 02/08/2018
+ * @see "README.md"
+ */
+public class OrganicDNN {
+    private static final Logger LOGGER = Logger.getLogger( OrganicDNN.class.getName() );
     private final double MIN_BIAS = -0.7;
     private final double MAX_BIAS = 0.7;
     private final double MIN_WEIGHT = -1.0;
@@ -27,8 +30,16 @@ public class ONN {
     private Neuron neurons[];
     private double[] latestOutputs;
 
-
-    public ONN(String filename) throws IOException {
+    /**
+     * Creates a neural network defined by the number of input neurons, output neurons,
+     * hidden neurons, and the axon connections between them. That information is
+     * loaded from a text file.
+     *
+     * @param filename text file that defines the network
+     * @throws Exception if the file is improperly formatted or cannot be read
+     * @see "README.md"
+     */
+    public OrganicDNN(String filename) throws Exception {
         // load structure file
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
@@ -65,45 +76,78 @@ public class ONN {
         }
     }
 
-    public double[] calculateOutputs(double[] inputs) throws InvalidParameterException {
+    /**
+     * Feeds input values into the neural network and returns the outputs.
+     *
+     * @param inputs values for each input neuron
+     * @return the outputs of each output neuron
+     */
+    public double[] calculateOutputs(double[] inputs) {
         if (inputs.length != inputCount) {
             LOGGER.log(Level.SEVERE, "Passed an invalid input size to calculateOutputs()."
                     + " Expected inputs[" + inputCount + "].");
-            throw new InvalidParameterException();
+            return null;
         }
         feedForward(inputs);
         for (int i=0; i<outputCount; i++) latestOutputs[i] = neurons[neuronCount-i-1].getOutput();
         return latestOutputs;
     }
 
-    public void train(double[] inputs, double[] targets, double rate, int iterations) throws InvalidParameterException {
+    /**
+     * Trains the neural network by performing multiple iterations of the feed forward
+     * and backpropagation algorithms.
+     *
+     * @param inputs values for each input neuron
+     * @param targets target values for the output neurons
+     * @param rate the learning rate (eta)
+     * @param iterations the number of times the network is trained backpropagated
+     */
+    public void train(double[] inputs, double[] targets, double rate, int iterations) {
         if (inputs.length != inputCount || targets.length != outputCount) {
             LOGGER.log(Level.SEVERE, "Passed an invalid input and target size to train()."
                     + " Expected inputs[" + inputCount + "], targets[" + outputCount + "].");
-            throw new InvalidParameterException();
+            return;
         }
         for (int i=0; i < iterations; i++) backpropagate(inputs,targets,rate);
     }
 
-    public void train(TrainSet set, int loops, int batch_size) throws InvalidParameterException{
-        if (set.getINPUT_SIZE() != inputCount || set.getOUTPUT_SIZE() != outputCount) {
+    /**
+     * Trains the neural network in batches using the TrainSet class to hold the input
+     * and target training data.
+     *
+     * @param set the TrainSet object which holds all input and target data for training
+     * @param loops the number of times each batch will perform backpropagation
+     * @param batchSize the size of a random subset (batch) of the training data that will be
+     *                  processed together.
+     * @see TrainSet
+     */
+    public void train(TrainSet set, int loops, int batchSize) {
+        if (set.getINPUT_SIZE() != inputCount || set.getTARGET_SIZE() != outputCount) {
             LOGGER.log(Level.SEVERE, "Passed a TrainSet with an invalid input and target size to train()."
                     + " Expected inputs[" + inputCount + "], targets[" + outputCount + "].");
-            throw new InvalidParameterException();
+            return;
         }
         for (int i = 0; i < loops; i++) {
-            TrainSet batch = set.extractBatch(batch_size);
-            for (int j=0; j < batch_size; j++) {
-                this.backpropagate(batch.getInput(j), batch.getOutput(j), 0.3);
+            TrainSet batch = set.extractBatch(batchSize);
+            for (int j=0; j < batchSize; j++) {
+                this.backpropagate(batch.getInput(j), batch.getTarget(j), 0.3);
             }
         }
     }
 
-    public double MSE (double[] inputs, double[] targets) throws InvalidParameterException {
+    /**
+     * Calculates the mean squared error of the network given inputs and target outputs.
+     * The MSE is the cost function of the network.
+     *
+     * @param inputs values for each input neuron
+     * @param targets target values for the output neurons
+     * @return the mean squared error
+     */
+    public double MSE (double[] inputs, double[] targets) {
         if (inputs.length != inputCount || targets.length != outputCount) {
-            LOGGER.log(Level.SEVERE, "MSE(): passed an invalid input and target size."
+            LOGGER.log(Level.SEVERE, "Passed an invalid input and target size to MSE()."
                     + " Expected: inputs[" + inputCount + "] targets[" + outputCount + "].");
-            throw new InvalidParameterException();
+            return Double.NaN;
         }
         double sum = 0;
         for (int i=0; i<outputCount; i++)
@@ -112,10 +156,28 @@ public class ONN {
     }
 
 
+    /**
+     * Provides the network with values for the input neurons and feeds them through
+     * the axons. This updates each neuron's output, ultimately updating the output
+     * neuron's values.
+     *
+     * @param inputs values for each input neuron
+     * @see "README.md"
+     */
     private void feedForward(double[] inputs) {
         for (int i=0; i<inputCount; i++) neurons[i].feedForward(inputs[i]);
     }
 
+    /**
+     * Calculates the error for each output neuron based on the target value, then
+     * "backpropagates" that error throughout the network, updating the weights of
+     * the axons and biases of the neurons to minimize the error. Backpropagation
+     * is the backbone of how the network learns a set of training data.
+     *
+     * @param inputs values for each input neuron
+     * @param targets target values for the output neurons
+     * @param rate the learning rate (eta)
+     */
     private void backpropagate(double[] inputs, double[] targets, double rate) {
         feedForward(inputs);
         for (int i=0; i<outputCount; i++) neurons[neuronCount-i-1].backpropagate(targets[i], rate);
