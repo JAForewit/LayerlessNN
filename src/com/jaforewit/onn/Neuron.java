@@ -16,6 +16,7 @@ public class Neuron {
 
     }
 
-
+    private double sigmoid(double x) { return 1d / (1 + Math.exp(-x)); }
+    private double logit(double x) { return Math.log(x / (1 - x)); }
 
 }
