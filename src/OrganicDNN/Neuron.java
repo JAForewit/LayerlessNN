@@ -2,7 +2,6 @@ package OrganicDNN;
 
 import java.util.HashMap;
 
-
 /**
  * This Neuron class is used to create an organic Deep Neural Network (DNN),
  * a "structureless" neural network defined by neuron axons instead of layers.

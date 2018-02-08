@@ -1,6 +1,6 @@
-package OrganicDNN;
 
 import java.util.Arrays;
+import OrganicDNN.*;
 
 public class Main {
     public static void main(String[] args) {
