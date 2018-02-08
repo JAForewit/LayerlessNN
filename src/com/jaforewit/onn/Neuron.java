@@ -10,17 +10,15 @@ public class Neuron {
     private double bias;
     private double error;
     private double output;
-    //private double outputDerivative; // TODO: consider removing outputDerivative
     private HashMap<Neuron, Double> inputAxons; // Key: neuron, Value: weight
     private HashMap<Neuron, Double> outputAxons; // Key: neuron, Value: weight
 
-    Neuron(double bias) {
+    public Neuron(double bias) {
         inputCounter = 0;
         outputCounter = 0;
         this.bias = bias;
         error = 0d;
         output = sigmoid(this.bias);
-        //outputDerivative = output * (1 - output); // TODO: consider removing outputDerivative
         inputAxons = new HashMap<>();
         outputAxons = new HashMap<>();
     }
@@ -33,26 +31,35 @@ public class Neuron {
 
     public double getError() { return error; }
 
+    public double getOutput() { return output; }
+
     public void addInputAxon(Neuron n, double weight) {
+        if (inputAxons.containsKey(n)) return;
         inputAxons.put(n,weight);
         n.addOutputAxon(this, weight);
     }
     public void addOutputAxon(Neuron n, double weight) {
+        if (outputAxons.containsKey(n)) return;
         outputAxons.put(n,weight);
         n.addInputAxon(this, weight);
     }
     public void removeInputAxon(Neuron n) {
-        inputAxons.remove(n);
-        n.removeOutputAxon(this);
+        if (inputAxons.containsKey(n)) {
+            inputAxons.remove(n);
+            n.removeOutputAxon(this);
+        }
     }
     public void removeOutputAxon(Neuron n) {
-        outputAxons.remove(n);
-        n.removeInputAxon(this);
+        if (outputAxons.containsKey(n)) {
+            outputAxons.remove(n);
+            n.removeInputAxon(this);
+        }
     }
+
 
     public void feedForward(double value) {
         output = value;
-        for (Neuron n : outputAxons.keySet()) n.feedForward(this, output);
+        for (Neuron n : outputAxons.keySet()) n.feedForward(this);
     }
 
     public void backpropagate(double target, double rate) {
@@ -63,13 +70,13 @@ public class Neuron {
 
 
 
-    private void feedForward(Neuron n, double value) {
+    private void feedForward(Neuron n) {
         inputCounter++;
-        output = sigmoid(logit(output) + inputAxons.get(n) * value);
+        output = sigmoid(logit(output) + inputAxons.get(n) * n.getOutput());
 
         if (inputCounter < inputAxons.size()) return;
 
-        for (Neuron i : outputAxons.keySet()) i.feedForward(this, output);
+        for (Neuron i : outputAxons.keySet()) i.feedForward(this);
         inputCounter = 0;
     }
 

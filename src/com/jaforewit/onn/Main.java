@@ -7,24 +7,14 @@ import java.security.InvalidParameterException;
 public class Main {
     public static void main(String[] args) {
 
-        Neuron n = new Neuron(2);
 
-        double out1 = n.sigmoid(0.3);
-        double out2 = n.sigmoid(n.logit(out1) + 0.7*2d);
-        double out3 = n.sigmoid(n.logit(out2) + 3*-0.2);
-
-        System.out.println(out1);
-        System.out.println(out2);
-        System.out.println(out3);
-
-        /*
         try {
-            ONN net = new ONN("example3.structure");
+            ONN net = new ONN("example.structure", "example.weights");
 
-            int iterations = 1000;
-            double rate = 0.1;
-            double[] inputs = {2, 5};
-            double[] targets = {1, 0};
+            int iterations = 5;
+            double rate = 0.05;
+            double[] inputs = {2d, 3d};
+            double[] targets = {0.5};
 
             net.train(inputs, targets, rate, iterations);
             net.feedForward(inputs);
@@ -48,7 +38,7 @@ public class Main {
                     + "\nPlease review README.md for formatting instructions.");
             e.printStackTrace(System.out);
         }
-        */
+
     }
 }
 
