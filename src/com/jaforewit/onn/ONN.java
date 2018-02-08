@@ -13,6 +13,7 @@ import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
+
 public class ONN {
     private final double MIN_BIAS = -0.7;
     private final double MAX_BIAS = 0.5;

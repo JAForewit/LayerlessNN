@@ -7,9 +7,18 @@ import java.security.InvalidParameterException;
 public class Main {
     public static void main(String[] args) {
 
+        Neuron n = new Neuron(2);
+
+        double out1 = n.sigmoid(0.3);
+        double out2 = n.sigmoid(n.logit(out1) + 0.7*2d);
+        double out3 = n.sigmoid(n.logit(out2) + 3*-0.2);
+
+        System.out.println(out1);
+        System.out.println(out2);
+        System.out.println(out3);
+
+        /*
         try {
-
-
             ONN net = new ONN("example3.structure");
 
             int iterations = 1000;
@@ -23,9 +32,6 @@ public class Main {
             System.out.println("\nResults:");
             System.out.println(Arrays.toString(net.getLatestOutputs()));
             System.out.printf("MSE: %.3f", net.MSE(inputs,targets));
-
-
-
         }
         catch (InvalidParameterException e) {
             System.out.println("\nFailed to feed forward through the network."
@@ -42,6 +48,7 @@ public class Main {
                     + "\nPlease review README.md for formatting instructions.");
             e.printStackTrace(System.out);
         }
+        */
     }
 }
 
