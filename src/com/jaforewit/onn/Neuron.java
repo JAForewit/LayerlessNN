@@ -23,6 +23,13 @@ public class Neuron {
         outputAxons = new HashMap<>();
     }
 
+
+    // FOR TESTING ONLY
+    public HashMap<Neuron, Double> getInputAxons() { return inputAxons; }
+    public HashMap<Neuron, Double> getOutputAxons() { return outputAxons; }
+    public double getBias() { return bias; }
+
+
     // Must be called if removed from an ONN
     public void close() {
         for (Neuron n : inputAxons.keySet()) removeInputAxon(n);
@@ -56,7 +63,6 @@ public class Neuron {
         }
     }
 
-
     public void feedForward(double value) {
         output = value;
         for (Neuron n : outputAxons.keySet()) n.feedForward(this);
@@ -65,8 +71,9 @@ public class Neuron {
     public void backpropagate(double target, double rate) {
         error = (output - target) * output * (1 - output);
         for (Neuron n : inputAxons.keySet()) n.backpropagate(this, rate);
-    }
 
+        // TODO: update bias
+    }
 
 
 
@@ -87,6 +94,8 @@ public class Neuron {
         if (outputCounter < outputAxons.size()) return;
 
         error *= output * (1 - output);
+
+        // TODO: update bias
 
         // update weights
         double newWeight;

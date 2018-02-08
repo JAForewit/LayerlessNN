@@ -9,15 +9,17 @@ public class Main {
 
 
         try {
-            ONN net = new ONN("example.structure", "example.weights");
+            ONN net = new ONN("test.structure", "test.weights");
 
             int iterations = 5;
-            double rate = 0.05;
+            double rate = 0.3;
             double[] inputs = {2d, 3d};
             double[] targets = {0.5};
 
-            net.train(inputs, targets, rate, iterations);
+            //net.train(inputs, targets, rate, iterations);
             net.feedForward(inputs);
+            net.printNet();
+
 
             System.out.println("\nResults:");
             System.out.println(Arrays.toString(net.getLatestOutputs()));
