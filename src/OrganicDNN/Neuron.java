@@ -1,4 +1,4 @@
-package OrganicDNN;
+package OrganicNN;
 
 import java.util.HashMap;
 
