@@ -1,4 +1,4 @@
-package OrganicDNN;
+package OrganicNN;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,8 +16,8 @@ import TrainSet.TrainSet;
  * @version 1.0, 02/08/2018
  * @see "README.md"
  */
-public class OrganicDNN {
-    private static final Logger LOGGER = Logger.getLogger( OrganicDNN.class.getName() );
+public class OrganicNN {
+    private static final Logger LOGGER = Logger.getLogger( OrganicNN.class.getName() );
     private final double MIN_BIAS = -0.7;
     private final double MAX_BIAS = 0.7;
     private final double MIN_WEIGHT = -1.0;
@@ -36,7 +36,7 @@ public class OrganicDNN {
      * @throws Exception if the file is improperly formatted or cannot be read
      * @see "README.md"
      */
-    public OrganicDNN(String filename) throws Exception {
+    public OrganicNN(String filename) throws Exception {
         // load structure file
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
