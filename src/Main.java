@@ -1,13 +1,13 @@
 
 import java.util.Arrays;
-import OrganicDNN.*;
+import OrganicNN.*;
 import TrainSet.*;
 
 public class Main {
     public static void main(String[] args) {
 
         try {
-            OrganicDNN net = new OrganicDNN("test.structure");
+            OrganicNN net = new OrganicNN("test.structure");
             TrainSet trainingSet = new TrainSet(net.getInputCount(),net.getOutputCount());
 
 
