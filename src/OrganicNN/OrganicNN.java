@@ -130,9 +130,10 @@ public class OrganicNN {
      * @param loops the number of times each batch will perform backpropagation
      * @param batchSize the size of a random subset (batch) of the training data that will be
      *                  processed together.
+     * @param rate learning rate (eta)
      * @see TrainSet
      */
-    public void train(TrainSet set, int loops, int batchSize) {
+    public void train(TrainSet set, int loops, int batchSize, double rate) {
         if (set.getINPUT_SIZE() != inputCount || set.getTARGET_SIZE() != outputCount) {
             LOGGER.log(Level.SEVERE, "Passed a TrainSet with an invalid input and target size to train()."
                     + " Expected inputs[" + inputCount + "], targets[" + outputCount + "].");
@@ -141,7 +142,7 @@ public class OrganicNN {
         for (int i = 0; i < loops; i++) {
             TrainSet batch = set.extractBatch(batchSize);
             for (int j=0; j < batchSize; j++) {
-                this.backpropagate(batch.getInput(j), batch.getTarget(j), 0.3);
+                this.backpropagate(batch.getInput(j), batch.getTarget(j), rate);
             }
         }
     }
