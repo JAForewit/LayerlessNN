@@ -43,11 +43,11 @@ public class OrganicNN {
             // read network critical definitions
             int[] nextLine = Arrays.stream(reader.readLine().split("\\s")).mapToInt(Integer::parseInt).toArray();
             inputCount = nextLine[0];
-            outputCount = nextLine[1];
-            neuronCount = inputCount + outputCount + nextLine[2];
-            neurons = new Neuron[neuronCount];
+            outputCount = nextLine[2];
+            neuronCount = inputCount + outputCount + nextLine[1];
 
             // initialize neurons with a random bias
+            neurons = new Neuron[neuronCount];
             double randBias;
             for (int i = 0; i < neuronCount; i++) {
                 randBias = (Math.random() * (MAX_BIAS - MIN_BIAS)) + MIN_BIAS;
@@ -84,7 +84,7 @@ public class OrganicNN {
      *
      * @return number of output neurons
      */
-    public int getOutputCount() { return inputCount; }
+    public int getOutputCount() { return outputCount; }
 
     /**
      * Feeds input values into the neural network and returns the outputs.
