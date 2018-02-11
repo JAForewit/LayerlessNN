@@ -1,12 +1,13 @@
 package OrganicNN;
 
+import TrainSet.TrainSet;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import TrainSet.TrainSet;
 
 /**
  * Uses the Neuron class to create an organic Deep Neural Network (DNN),
@@ -33,10 +34,9 @@ public class OrganicNN {
      * loaded from a text file.
      *
      * @param filename text file that defines the network
-     * @throws Exception if the file is improperly formatted or cannot be read
      * @see "README.md"
      */
-    public OrganicNN(String filename) throws Exception {
+    public OrganicNN(String filename) {
         // load structure file
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
@@ -68,7 +68,7 @@ public class OrganicNN {
             if (reader.readLine() != null) throw new IOException();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "There was a problem reading the structure file.");
-            throw e;
+            e.printStackTrace();
         }
     }
 
@@ -92,7 +92,7 @@ public class OrganicNN {
      * @param inputs values for each input neuron
      * @return the outputs of each output neuron
      */
-    public double[] getOutputs(double[] inputs) {
+    public double[] calculateOutput(double[] inputs) {
         if (inputs.length != inputCount) {
             LOGGER.log(Level.SEVERE, "Passed an invalid input size to calculateOutputs()."
                     + " Expected inputs[" + inputCount + "].");
@@ -141,7 +141,7 @@ public class OrganicNN {
         }
         for (int i = 0; i < loops; i++) {
             TrainSet batch = set.extractBatch(batchSize);
-            for (int j=0; j < batchSize; j++) {
+            for (int j=0; j < batch.size(); j++) {
                 this.backpropagate(batch.getInput(j), batch.getTarget(j), rate);
             }
         }
@@ -163,7 +163,7 @@ public class OrganicNN {
         }
         double sum = 0;
         for (int i=0; i<outputCount; i++)
-            sum += (targets[i] - getOutputs(inputs)[i]) * (targets[i] - getOutputs(inputs)[i]);
+            sum += (targets[i] - calculateOutput(inputs)[i]) * (targets[i] - calculateOutput(inputs)[i]);
         return sum / (2d * outputCount);
     }
 
@@ -176,7 +176,8 @@ public class OrganicNN {
      * @see "README.md"
      */
     private void feedForward(double[] inputs) {
-        for (int i=0; i<inputCount; i++) neurons[i].feedForward(inputs[i]);
+        for (int i=0; i<inputCount; i++)
+            neurons[i].feedForward(inputs[i]);
     }
 
     /**

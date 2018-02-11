@@ -1,30 +1,27 @@
 
 import OrganicNN.*;
 import TrainSet.*;
-
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
 
-        try {
-            OrganicNN net = new OrganicNN("test.structure");
-            TrainSet trainSet = new TrainSet(5,1);
+        OrganicNN net = new OrganicNN("test.structure");
 
+        TrainSet trainSet = new TrainSet(net.getInputCount(),net.getOutputCount());
+        double[] input1 = {10, -5, 2}, target1 = {1, 0};
+        double[] input2 = {3, 6, -4}, target2 = {0, 1};
+        trainSet.addData(input1, target1);
+        trainSet.addData(input2, target2);
 
-            double[] test4 = {2d,-2d,2d,-2d,2d}, out4 = {0};
-            double[] test5 = {-2d,2d,-2d,2d,-2d}, out5 = {1};
+        net.train(trainSet,10000,2,0.3);
 
-
-            for (int i=0; i< 10000; i++) {
-                net.train(test4,out4,0.3,1);
-                net.train(test5,out5,0.3,1);
-            }
-
-            System.out.println(Arrays.toString(net.getOutputs(test4)));
-            System.out.println(Arrays.toString(net.getOutputs(test5)));
-        } catch (Exception e) { e.printStackTrace(); }
-
+        System.out.println("Result");
+        System.out.println(Arrays.toString(net.calculateOutput(input1)));
+        System.out.println("MSE: " + net.MSE(input2, target2));
+        System.out.println("Result");
+        System.out.println(Arrays.toString(net.calculateOutput(input1)));
+        System.out.println("MSE: " + net.MSE(input2, target2));
     }
 }
 

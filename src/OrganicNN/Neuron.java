@@ -45,18 +45,11 @@ public class Neuron {
      * Removes all axons in the event that the Neuron is removed after the network
      * has been created. This function also removes this neuron from the axons of
      * the neurons it is connected to.
-      */
-    public void close() {
+     */
+    public void removeAxons() {
         for (Neuron n : inputAxons.keySet()) removeInputAxon(n);
         for (Neuron n : outputAxons.keySet()) removeOutputAxon(n);
     }
-
-    /**
-     * Returns the current output value of the neuron.
-     *
-     * @return the current output
-     */
-    public double getOutput() { return output; }
 
     /**
      * Returns the neuron's current calculated error.
@@ -64,6 +57,13 @@ public class Neuron {
      * @return the current calculated error
      */
     public double getError() { return error; }
+
+    /**
+     * Returns the current output value of the neuron.
+     *
+     * @return the current output
+     */
+    public double getOutput() { return output; }
 
     /**
      * Adds an axon connected to an input neuron
@@ -149,9 +149,6 @@ public class Neuron {
 
         // continue feeding forward
         for (Neuron n : outputAxons.keySet()) n.feedForward(this);
-
-        // reset output
-        output = sigmoid(bias);
     }
 
     /**
@@ -172,7 +169,6 @@ public class Neuron {
 
         // update bias and reset output
         bias += -rate * error;
-        output = sigmoid(bias);
     }
 
     /**
@@ -183,6 +179,9 @@ public class Neuron {
      * @param n input neuron (from an axon)
      */
     private void feedForward(Neuron n) {
+        // reset output
+        if (inputCounter == 0) output = sigmoid(bias);
+
         inputCounter++;
         output = sigmoid(logit(output) + inputAxons.get(n) * n.getOutput());
 
@@ -192,8 +191,7 @@ public class Neuron {
         // continue feeding forward
         for (Neuron i : outputAxons.keySet()) i.feedForward(this);
 
-        // reset output
-        output = sigmoid(bias);
+        // reset counter
         inputCounter = 0;
     }
 
@@ -206,6 +204,9 @@ public class Neuron {
      * @param rate learning rate (eta)
      */
     private void backpropagate(Neuron n, double rate) {
+        // reset error
+        if (outputCounter == 0) error = 0;
+
         outputCounter++;
         error += n.getError() * outputAxons.get(n);
 
@@ -224,9 +225,8 @@ public class Neuron {
         // continue backpropagation
         for (Neuron i : inputAxons.keySet()) i.backpropagate(this, rate);
 
-        // update bias and reset output
+        // update bias
         bias += -rate * error;
-        output = sigmoid(bias);
         outputCounter = 0;
     }
 
