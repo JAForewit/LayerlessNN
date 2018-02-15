@@ -1,18 +1,18 @@
 
-import OrganicNN.*;
+import LayerlessNN.*;
 import TrainSet.*;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
 
-        OrganicNN net = new OrganicNN("large.structure");
+        LayerlessNN net = new LayerlessNN("small.structure");
 
         TrainSet trainSet = new TrainSet(net.getInputCount(),net.getOutputCount());
-        double[] input1 = {10,-5,2,5,5,4,4,8,8,-2};
-        double[] target1 = {1,0,1,0,1,0,1,0,1,0};
-        double[] input2 = {6,-4,5,2,2,8,8,4,4,2};
-        double[] target2 = {0,1,0,1,0,1,0,1,0,1};
+        double[] input1 = {10,-5,2};
+        double[] target1 = {1,0};
+        double[] input2 = {6,-4,5};
+        double[] target2 = {0,1};
         trainSet.addData(input1, target1);
         trainSet.addData(input2, target2);
 

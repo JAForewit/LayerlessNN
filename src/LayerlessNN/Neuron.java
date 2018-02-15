@@ -1,4 +1,4 @@
-package OrganicNN;
+package LayerlessNN;
 
 import java.util.HashMap;
 

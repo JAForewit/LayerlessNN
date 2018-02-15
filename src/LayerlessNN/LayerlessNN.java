@@ -1,4 +1,4 @@
-package OrganicNN;
+package LayerlessNN;
 
 import TrainSet.TrainSet;
 
@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  * @version 1.0, 02/08/2018
  * @see "README.md"
  */
-public class OrganicNN {
-    private static final Logger LOGGER = Logger.getLogger( OrganicNN.class.getName() );
+public class LayerlessNN {
+    private static final Logger LOGGER = Logger.getLogger( LayerlessNN.class.getName() );
     private final double MIN_BIAS = -0.7;
     private final double MAX_BIAS = 0.7;
     private final double MIN_WEIGHT = -1.0;
@@ -26,7 +26,7 @@ public class OrganicNN {
     private int inputCount;     // number of input neurons
     private int outputCount;    // number of output neurons
     private int neuronCount;    // total number of neurons
-    private Neuron neurons[];
+    private Neuron neurons[];   // array holding all neurons
 
     /**
      * Creates a neural network defined by the number of input neurons, output neurons,
@@ -36,7 +36,7 @@ public class OrganicNN {
      * @param filename text file that defines the network
      * @see "README.md"
      */
-    public OrganicNN(String filename) {
+    public LayerlessNN(String filename) {
         // load structure file
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
