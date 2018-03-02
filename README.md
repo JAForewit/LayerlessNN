@@ -1,46 +1,29 @@
-# Organic Neural Network (ONN)
-While inspiration for this project came from my limited knowledge of biological brains, I realize that implementation removes many of the simulatrities.
+# Introduction
 
-ALL WORK (INCLUDING THIS DOCUMENT) IS IN DEVELOPMENT.
+For my honors thesis at Liberty University, I designed and implemented a "layerless" neural network in java which is intended as a tool to explore the benefits of structureless and partially connected neural networks. By implementing the LayerlessNN class, you can easily create neural networks where nodes do not need to be connected in traditional layers. 
 
-## Concept
-An ONN (1) has no implied structure and (2) treats neurons as objects which accept one or more inputs and generates an output.
+### Before you start
 
-**Algorithms to be implemented:**
-* Feed forward 
-* Backpropegation
-* Error calculation
-* Threshold firing (to prevent loops)
+In this implimentation, the layerless neural network includes...
 
-## ONeuron Class
-Each organic neuron will contain the addresses for each of it's inputs and can produce an output. I may also inmplement a firing threshold.
 
-**Attributes:**
-```
-// NEEDS UPDATING
-```
-**Methods:**
-```
-// NEEDS UPDATING
-```
 
-## ONN Class
-The ONN class will be used to initialize neurons and perform network training.
 
-**Attributes:**
-```
-// NEEDS UPDATING
-```
 
-**Methods:**
-```
-// NEEDS UPDATING
-```
+### Defining a layerless neural network
+The LayerlessNN class accepts text files to define a network (I have included two sample files "small.structure" and "large.structure"). To create a text file to describe your network follow these steps:
 
-The ONN class accepts .structure files to define a network. These files define the inputs of the hidden and output neurons. Every hidden and output neuron MUST have at least 1 input. Follow this format (in = input neuron, hn = hidden neuron, on = output neuron):
+* Label each neuron with an index beginning with 0 where the input neurons are labeled first and output neurons are labeled last.
+* Line 1 states the number of input, hidden, and output neurons.
+* Line 2 lists the labels for every neuron that neuron 0 (labeld in step 1) is connected to.
+
+
+
+
+The text file must follow this format (IN = input neuron, HN = hidden neuron, ON = output neuron):
 
 ```
-[in count] [on count] [hn count]
+[in count] [hn count] [on count]
 [in 0's first output] [in 0's second output] ... [in 0's ith output]
 [in 1's first output] [in 1's second output] ... [in 1's jth output]
 	.						.
@@ -56,6 +39,10 @@ The ONN class accepts .structure files to define a network. These files define t
 ```
 
 replace each set of brackets with the corresponding integer.
+
+
+
+
 
 The included "example2.structure" file defines the following network:
 
