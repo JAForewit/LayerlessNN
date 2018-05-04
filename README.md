@@ -4,12 +4,16 @@ For my honors thesis at Liberty University, I designed and implemented a "layerl
 
 ### Before you start
 
+The included main class has a basic example of the Layerless NN running.
+
+#### A Brief Explaination:
+
 This layerless neural network is defined by the neurons and their connections to neighbors. Connections which influence the neuron's output are refered to as "input axons" while connections which carry that output to other neurons are called "output axons." Each axon connects to another neuron and includes the weight of the connection:
 
 ![screen shot 2018-03-02 at 10 42 21 am](https://user-images.githubusercontent.com/7318513/36907368-77d7ad90-1e06-11e8-9feb-87aa6df3b3f3.png)
 
 ### Defining a layerless neural network
-The LayerlessNN class accepts text files that define a network's structure (I have included two sample files "small.structure" and "large.structure"). To creat your own structure file, follow these steps:
+The LayerlessNN class accepts text files that define a network's structure (I have included two sample files "small.structure" and "large.structure"). To create your own structure file, follow these steps:
 
 1. Label each neuron with an index beginning with 0 where the input neurons are labeled first and output neurons are labeled last.
 2. Line 1 states the number of input, hidden, and output neurons.
